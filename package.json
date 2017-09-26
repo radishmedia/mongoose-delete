@@ -25,12 +25,12 @@
     "url": "https://github.com/dsanel/mongoose-delete/issues"
   },
   "homepage": "https://github.com/dsanel/mongoose-delete",
-  "peerDependencies": {
-    "mongoose": "4.x"
-  },
   "devDependencies": {
     "chai": "^3.3.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.3.3"
+  },
+  "dependencies": {
+    "mongoose": "^4.11.13"
   }
 }
