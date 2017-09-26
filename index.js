@@ -46,8 +46,8 @@ function parseUpdateArguments (conditions, doc, options, callback) {
 function parseIndexFields (options) {
     var indexFields = {
         deleted: false,
-        deletedAt: false,
-        deletedBy: false
+        deleted_at: false,
+        deleted_by: false
     };
 
     if (!options.indexFields) {
@@ -55,17 +55,17 @@ function parseIndexFields (options) {
     }
 
     if ((typeof options.indexFields === 'string' || options.indexFields instanceof String) && options.indexFields === 'all') {
-        indexFields.deleted = indexFields.deletedAt = indexFields.deletedBy = true;
+        indexFields.deleted = indexFields.deleted_at = indexFields.deleted_by = true;
     }
 
     if (typeof(options.indexFields) === "boolean" && options.indexFields === true) {
-        indexFields.deleted = indexFields.deletedAt = indexFields.deletedBy = true;
+        indexFields.deleted = indexFields.deleted_at = indexFields.deleted_by = true;
     }
 
     if (Array.isArray(options.indexFields)) {
         indexFields.deleted = options.indexFields.indexOf('deleted') > -1;
-        indexFields.deletedAt = options.indexFields.indexOf('deletedAt') > -1;
-        indexFields.deletedBy = options.indexFields.indexOf('deletedBy') > -1;
+        indexFields.deleted_at = options.indexFields.indexOf('deleted_at') > -1;
+        indexFields.deleted_by = options.indexFields.indexOf('deleted_by') > -1;
     }
 
     return indexFields;
@@ -84,12 +84,12 @@ module.exports = function (schema, options) {
 
     schema.add({ deleted: createSchemaObject(typeKey, Boolean, { default: false, index: indexFields.deleted }) });
 
-    if (options.deletedAt === true) {
-        schema.add({ deletedAt: createSchemaObject(typeKey, Date, { index: indexFields.deletedAt }) });
+    if (options.deleted_at === true) {
+        schema.add({ deleted_at: createSchemaObject(typeKey, Date, { index: indexFields.deleted_at }) });
     }
 
-    if (options.deletedBy === true) {
-        schema.add({ deletedBy: createSchemaObject(typeKey, options.deletedByType || Schema.Types.ObjectId, { index: indexFields.deletedBy }) });
+    if (options.deleted_by === true) {
+        schema.add({ deleted_by: createSchemaObject(typeKey, options.deletedByType || Schema.Types.ObjectId, { index: indexFields.deleted_by }) });
     }
 
     schema.pre('save', function (next) {
@@ -155,20 +155,20 @@ module.exports = function (schema, options) {
         });
     }
 
-    schema.methods.delete = function (deletedBy, cb) {
-        if (typeof deletedBy === 'function') {
-          cb = deletedBy
-          deletedBy = null
+    schema.methods.delete = function (deleted_by, cb) {
+        if (typeof deleted_by === 'function') {
+          cb = deleted_by
+          deleted_by = null
         }
 
         this.deleted = true;
 
-        if (schema.path('deletedAt')) {
-            this.deletedAt = new Date();
+        if (schema.path('deleted_at')) {
+            this.deleted_at = new Date();
         }
 
-        if (schema.path('deletedBy')) {
-            this.deletedBy = deletedBy;
+        if (schema.path('deleted_by')) {
+            this.deleted_by = deleted_by;
         }
 
         if (options.validateBeforeDelete === false) {
@@ -178,27 +178,27 @@ module.exports = function (schema, options) {
         return this.save(cb);
     };
 
-    schema.statics.delete =  function (conditions, deletedBy, callback) {
-        if (typeof deletedBy === 'function') {
-            callback = deletedBy;
+    schema.statics.delete =  function (conditions, deleted_by, callback) {
+        if (typeof deleted_by === 'function') {
+            callback = deleted_by;
             conditions = conditions;
-            deletedBy = null;
+            deleted_by = null;
         } else if (typeof conditions === 'function') {
             callback = conditions;
             conditions = {};
-            deletedBy = null;
+            deleted_by = null;
         }
 
         var doc = {
             deleted: true
         };
 
-        if (schema.path('deletedAt')) {
-            doc.deletedAt = new Date();
+        if (schema.path('deleted_at')) {
+            doc.deleted_at = new Date();
         }
 
-        if (schema.path('deletedBy')) {
-            doc.deletedBy = deletedBy;
+        if (schema.path('deleted_by')) {
+            doc.deleted_by = deleted_by;
         }
 
         if (this.updateWithDeleted) {
@@ -210,8 +210,8 @@ module.exports = function (schema, options) {
 
     schema.methods.restore = function (callback) {
         this.deleted = false;
-        this.deletedAt = undefined;
-        this.deletedBy = undefined;
+        this.deleted_at = undefined;
+        this.deleted_by = undefined;
         return this.save(callback);
     };
 
@@ -223,8 +223,8 @@ module.exports = function (schema, options) {
 
         var doc = {
             deleted: false,
-            deletedAt: undefined,
-            deletedBy: undefined
+            deleted_at: undefined,
+            deleted_by: undefined
         };
 
         if (this.updateWithDeleted) {

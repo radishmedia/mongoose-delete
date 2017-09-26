@@ -62,13 +62,13 @@ describe("mongoose_delete plugin without options", function () {
         });
     });
 
-    it("delete() -> should not save 'deletedAt' value", function (done) {
+    it("delete() -> should not save 'deleted_at' value", function (done) {
         Test1.findOne({ name: 'Puffy' }, function (err, puffy) {
             should.not.exist(err);
 
             puffy.delete(function (err, success) {
                 if (err) { throw err; }
-                should.not.exist(success.deletedAt);
+                should.not.exist(success.deleted_at);
                 done();
             });
         });
@@ -115,13 +115,13 @@ describe("mongoose_delete plugin without options, using option: typeKey", functi
     });
   });
 
-  it("delete() -> should not save 'deletedAt' value", function (done) {
+  it("delete() -> should not save 'deleted_at' value", function (done) {
     Test1.findOne({ name: 'Puffy' }, function (err, puffy) {
       should.not.exist(err);
 
       puffy.delete(function (err, success) {
         if (err) { throw err; }
-        should.not.exist(success.deletedAt);
+        should.not.exist(success.deleted_at);
         done();
       });
     });
@@ -140,10 +140,10 @@ describe("mongoose_delete plugin without options, using option: typeKey", functi
   });
 });
 
-describe("mongoose_delete with options: { deletedAt : true }", function () {
+describe("mongoose_delete with options: { deleted_at : true }", function () {
 
     var Test2Schema = new Schema({ name: String }, { collection: 'mongoose_delete_test2' });
-    Test2Schema.plugin(mongoose_delete, { deletedAt : true });
+    Test2Schema.plugin(mongoose_delete, { deleted_at : true });
     var Test2 = mongoose.model('Test2', Test2Schema);
 
     before(function (done) {
@@ -156,36 +156,36 @@ describe("mongoose_delete with options: { deletedAt : true }", function () {
         mongoose.connection.db.dropCollection("mongoose_delete_test2", function () { done(); });
     });
 
-    it("delete() -> should save 'deletedAt' key", function (done) {
+    it("delete() -> should save 'deleted_at' key", function (done) {
         Test2.findOne({ name: 'Puffy' }, function (err, puffy) {
             should.not.exist(err);
 
             puffy.delete(function (err, success) {
                 if (err) { throw err; }
-                should.exist(success.deletedAt);
+                should.exist(success.deleted_at);
                 done();
             });
         });
     });
 
-    it("restore() -> should set deleted:false and delete deletedAt key", function (done) {
+    it("restore() -> should set deleted:false and delete deleted_at key", function (done) {
         Test2.findOne({ name: 'Puffy' }, function (err, puffy) {
             should.not.exist(err);
 
             puffy.restore(function (err, success) {
                 if (err) { throw err; }
                 success.deleted.should.equal(false);
-                should.not.exist(success.deletedAt);
+                should.not.exist(success.deleted_at);
                 done();
             });
         });
     });
 });
 
-describe("mongoose_delete with options: { deletedAt : true }, using option: typeKey", function () {
+describe("mongoose_delete with options: { deleted_at : true }, using option: typeKey", function () {
 
   var Test2Schema = new Schema({ name: String }, { collection: 'mongoose_delete_test2', typeKey: '$type' });
-  Test2Schema.plugin(mongoose_delete, { deletedAt : true });
+  Test2Schema.plugin(mongoose_delete, { deleted_at : true });
   var Test2 = mongoose.model('Test2a', Test2Schema);
 
   before(function (done) {
@@ -198,36 +198,36 @@ describe("mongoose_delete with options: { deletedAt : true }, using option: type
     mongoose.connection.db.dropCollection("mongoose_delete_test2", function () { done(); });
   });
 
-  it("delete() -> should save 'deletedAt' key", function (done) {
+  it("delete() -> should save 'deleted_at' key", function (done) {
     Test2.findOne({ name: 'Puffy' }, function (err, puffy) {
       should.not.exist(err);
 
       puffy.delete(function (err, success) {
         if (err) { throw err; }
-        should.exist(success.deletedAt);
+        should.exist(success.deleted_at);
         done();
       });
     });
   });
 
-  it("restore() -> should set deleted:false and delete deletedAt key", function (done) {
+  it("restore() -> should set deleted:false and delete deleted_at key", function (done) {
     Test2.findOne({ name: 'Puffy' }, function (err, puffy) {
       should.not.exist(err);
 
       puffy.restore(function (err, success) {
         if (err) { throw err; }
         success.deleted.should.equal(false);
-        should.not.exist(success.deletedAt);
+        should.not.exist(success.deleted_at);
         done();
       });
     });
   });
 });
 
-describe("mongoose_delete with options: { deletedBy : true }", function () {
+describe("mongoose_delete with options: { deleted_by : true }", function () {
 
     var Test3Schema = new Schema({ name: String }, { collection: 'mongoose_delete_test3' });
-    Test3Schema.plugin(mongoose_delete, { deletedBy : true });
+    Test3Schema.plugin(mongoose_delete, { deleted_by : true });
     var Test3 = mongoose.model('Test3', Test3Schema);
 
     before(function (done) {
@@ -242,37 +242,37 @@ describe("mongoose_delete with options: { deletedBy : true }", function () {
 
     var id = mongoose.Types.ObjectId("53da93b16b4a6670076b16bf");
 
-    it("delete() -> should save deletedBy key", function (done) {
+    it("delete() -> should save deleted_by key", function (done) {
         Test3.findOne({ name: 'Puffy' }, function (err, puffy) {
             should.not.exist(err);
 
             puffy.delete(id, function (err, success) {
                 should.not.exist(err);
 
-                success.deletedBy.should.equal(id);
+                success.deleted_by.should.equal(id);
                 done();
             });
         });
     });
 
-    it("restore() -> should set deleted:false and delete deletedBy key", function (done) {
+    it("restore() -> should set deleted:false and delete deleted_by key", function (done) {
         Test3.findOne({ name: 'Puffy' }, function (err, puffy) {
             should.not.exist(err);
 
             puffy.restore(function (err, success) {
                 if (err) { throw err; }
                 success.deleted.should.equal(false);
-                should.not.exist(success.deletedBy);
+                should.not.exist(success.deleted_by);
                 done();
             });
         });
     });
 });
 
-describe("mongoose_delete with options: { deletedBy : true }, using option: typeKey", function () {
+describe("mongoose_delete with options: { deleted_by : true }, using option: typeKey", function () {
 
   var Test3Schema = new Schema({ name: String }, { collection: 'mongoose_delete_test3', typeKey: '$type' });
-  Test3Schema.plugin(mongoose_delete, { deletedBy : true });
+  Test3Schema.plugin(mongoose_delete, { deleted_by : true });
   var Test3 = mongoose.model('Test3a', Test3Schema);
 
   before(function (done) {
@@ -287,37 +287,37 @@ describe("mongoose_delete with options: { deletedBy : true }, using option: type
 
   var id = mongoose.Types.ObjectId("53da93b16b4a6670076b16bf");
 
-  it("delete() -> should save deletedBy key", function (done) {
+  it("delete() -> should save deleted_by key", function (done) {
     Test3.findOne({ name: 'Puffy' }, function (err, puffy) {
       should.not.exist(err);
 
       puffy.delete(id, function (err, success) {
         should.not.exist(err);
 
-        success.deletedBy.should.equal(id);
+        success.deleted_by.should.equal(id);
         done();
       });
     });
   });
 
-  it("restore() -> should set deleted:false and delete deletedBy key", function (done) {
+  it("restore() -> should set deleted:false and delete deleted_by key", function (done) {
     Test3.findOne({ name: 'Puffy' }, function (err, puffy) {
       should.not.exist(err);
 
       puffy.restore(function (err, success) {
         if (err) { throw err; }
         success.deleted.should.equal(false);
-        should.not.exist(success.deletedBy);
+        should.not.exist(success.deleted_by);
         done();
       });
     });
   });
 });
 
-describe("mongoose_delete with options: { deletedBy : true, deletedByType: String }", function () {
+describe("mongoose_delete with options: { deleted_by : true, deletedByType: String }", function () {
 
     var TestSchema = new Schema({ name: String }, { collection: 'mongoose_delete_test' });
-    TestSchema.plugin(mongoose_delete, { deletedBy : true, deletedByType: String });
+    TestSchema.plugin(mongoose_delete, { deleted_by : true, deletedByType: String });
     var Test = mongoose.model('TestDeletedByType', TestSchema);
 
     before(function (done) {
@@ -332,27 +332,27 @@ describe("mongoose_delete with options: { deletedBy : true, deletedByType: Strin
 
     var id = "custom_user_id_12345678";
 
-    it("delete() -> should save deletedBy key", function (done) {
+    it("delete() -> should save deleted_by key", function (done) {
         Test.findOne({ name: 'Puffy' }, function (err, puffy) {
             should.not.exist(err);
 
             puffy.delete(id, function (err, success) {
                 should.not.exist(err);
 
-                success.deletedBy.should.equal(id);
+                success.deleted_by.should.equal(id);
                 done();
             });
         });
     });
 
-    it("restore() -> should set deleted:false and delete deletedBy key", function (done) {
+    it("restore() -> should set deleted:false and delete deleted_by key", function (done) {
         Test.findOne({ name: 'Puffy' }, function (err, puffy) {
             should.not.exist(err);
 
             puffy.restore(function (err, success) {
                 if (err) { throw err; }
                 success.deleted.should.equal(false);
-                should.not.exist(success.deletedBy);
+                should.not.exist(success.deleted_by);
                 done();
             });
         });
@@ -888,7 +888,7 @@ describe("check the existence of override static methods: { overrideMethods: ['c
 
 describe("delete multiple documents", function () {
     var TestSchema = new Schema({ name: String, side: Number }, { collection: 'mongoose_delete_test' });
-    TestSchema.plugin(mongoose_delete, { overrideMethods: 'all', deletedAt : true, deletedBy : true });
+    TestSchema.plugin(mongoose_delete, { overrideMethods: 'all', deleted_at : true, deleted_by : true });
     var TestModel = mongoose.model('Test14', TestSchema);
 
     beforeEach(function (done) {
@@ -927,7 +927,7 @@ describe("delete multiple documents", function () {
     });
 
 
-    it("delete(query, deletedBy, cb) -> delete multiple documents with conditions and user ID", function (done) {
+    it("delete(query, deleted_by, cb) -> delete multiple documents with conditions and user ID", function (done) {
         var userId = mongoose.Types.ObjectId("53da93b16b4a6670076b16bf");
 
         TestModel.delete({side:1}, userId, function (err, documents) {
@@ -962,7 +962,7 @@ describe("delete multiple documents", function () {
         });
     });
 
-    it("delete(query, deletedBy).exec() -> delete multiple documents with conditions and user ID", function (done) {
+    it("delete(query, deleted_by).exec() -> delete multiple documents with conditions and user ID", function (done) {
         var userId = mongoose.Types.ObjectId("53da93b16b4a6670076b16bf");
 
         TestModel.delete({side:1}, userId).exec(function (err, documents) {
@@ -975,7 +975,7 @@ describe("delete multiple documents", function () {
         });
     });
 
-    it("delete({}, deletedBy).exec() -> delete all documents passing user ID", function (done) {
+    it("delete({}, deleted_by).exec() -> delete all documents passing user ID", function (done) {
         var userId = mongoose.Types.ObjectId("53da93b16b4a6670076b16bf");
 
         TestModel.delete({}, userId).exec(function (err, documents) {
@@ -1021,7 +1021,7 @@ describe("delete multiple documents (no plugin options)", function () {
 
 describe("restore multiple documents", function () {
     var TestSchema = new Schema({ name: String, side: Number }, { collection: 'mongoose_restore_test' });
-    TestSchema.plugin(mongoose_delete, { overrideMethods: 'all', deletedAt : true, deletedBy : true });
+    TestSchema.plugin(mongoose_delete, { overrideMethods: 'all', deleted_at : true, deleted_by : true });
     var TestModel = mongoose.model('Test15', TestSchema);
 
     beforeEach(function (done) {
@@ -1204,43 +1204,43 @@ describe("model validation on delete: { validateBeforeDelete: false }", function
 describe("mongoose_delete indexFields options", function () {
     it("all fields must have index: { indexFields: true }", function (done) {
         var TestSchema = new Schema({ name: String }, { collection: 'mongoose_delete_test_indexFields' });
-        TestSchema.plugin(mongoose_delete, { indexFields: true, deletedAt : true, deletedBy : true });
+        TestSchema.plugin(mongoose_delete, { indexFields: true, deleted_at : true, deleted_by : true });
         var Test0 = mongoose.model('Test0_indexFields', TestSchema);
 
         expect(Test0.schema.paths.deleted._index).to.be.true;
-        expect(Test0.schema.paths.deletedAt._index).to.be.true;
-        expect(Test0.schema.paths.deletedBy._index).to.be.true;
+        expect(Test0.schema.paths.deleted_at._index).to.be.true;
+        expect(Test0.schema.paths.deleted_by._index).to.be.true;
         done();
     });
 
     it("all fields must have index: { indexFields: 'all' }", function (done) {
         var TestSchema = new Schema({ name: String }, { collection: 'mongoose_delete_test_indexFields' });
-        TestSchema.plugin(mongoose_delete, { indexFields: 'all', deletedAt : true, deletedBy : true });
+        TestSchema.plugin(mongoose_delete, { indexFields: 'all', deleted_at : true, deleted_by : true });
         var Test0 = mongoose.model('Test1_indexFields', TestSchema);
 
         expect(Test0.schema.paths.deleted._index).to.be.true;
-        expect(Test0.schema.paths.deletedAt._index).to.be.true;
-        expect(Test0.schema.paths.deletedBy._index).to.be.true;
+        expect(Test0.schema.paths.deleted_at._index).to.be.true;
+        expect(Test0.schema.paths.deleted_by._index).to.be.true;
         done();
     });
 
     it("only 'deleted' field must have index: { indexFields: ['deleted'] }", function (done) {
         var TestSchema = new Schema({ name: String }, { collection: 'mongoose_delete_test_indexFields' });
-        TestSchema.plugin(mongoose_delete, { indexFields: ['deleted'], deletedAt : true, deletedBy : true });
+        TestSchema.plugin(mongoose_delete, { indexFields: ['deleted'], deleted_at : true, deleted_by : true });
         var Test0 = mongoose.model('Test2_indexFields', TestSchema);
 
         expect(Test0.schema.paths.deleted._index).to.be.true;
         done();
     });
 
-    it("only 'deletedAt' and 'deletedBy' fields must have index: { indexFields: ['deletedAt', 'deletedBy'] }", function (done) {
+    it("only 'deleted_at' and 'deleted_by' fields must have index: { indexFields: ['deleted_at', 'deleted_by'] }", function (done) {
         var TestSchema = new Schema({ name: String }, { collection: 'mongoose_delete_test_indexFields' });
-        TestSchema.plugin(mongoose_delete, { indexFields: ['deletedAt', 'deletedBy'], deletedAt : true, deletedBy : true });
+        TestSchema.plugin(mongoose_delete, { indexFields: ['deleted_at', 'deleted_by'], deleted_at : true, deleted_by : true });
         var Test0 = mongoose.model('Test3_indexFields', TestSchema);
 
         expect(Test0.schema.paths.deleted._index).to.be.false;
-        expect(Test0.schema.paths.deletedAt._index).to.be.true;
-        expect(Test0.schema.paths.deletedBy._index).to.be.true;
+        expect(Test0.schema.paths.deleted_at._index).to.be.true;
+        expect(Test0.schema.paths.deleted_by._index).to.be.true;
         done();
     });
 });
