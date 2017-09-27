@@ -1,6 +1,11 @@
 Mongoose Delete Plugin
 =========
 
+## Fork
+[mongoose-delete](https://github.com/dsanel/mongoose-delete) 플러그인을 포킹하여 `deletedAt`, `deletedBy` property 이름을 `deleted_at`, `deleted_by` 로 변경 
+
+---
+
 mongoose-delete is simple and lightweight plugin that enables soft deletion of documents in MongoDB. This code is based on [riyadhalnur's](https://github.com/riyadhalnur) plugin [mongoose-softdelete](https://github.com/riyadhalnur/mongoose-softdelete).
 
 [![Build Status](https://travis-ci.org/dsanel/mongoose-delete.svg?branch=master)](https://travis-ci.org/dsanel/mongoose-delete)
